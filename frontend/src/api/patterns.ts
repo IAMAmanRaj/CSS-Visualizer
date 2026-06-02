@@ -1,7 +1,8 @@
 import axios from 'axios';
 import type { Pattern } from '../types';
 
-const API_URL = '/api/patterns';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_URL = `${API_BASE_URL}/api/patterns`;
 
 export const patternsApi = {
   // Get all patterns
