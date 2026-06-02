@@ -42,32 +42,25 @@ app.get('/api/health', (req: Request, res: Response) => {
   });
 });
 
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    message: 'CSS Visualizer Backend Running'
+  });
+});
+
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: Function) => {
   console.error('Error:', err.message);
   res.status(500).json({ message: 'Internal server error', error: err.message });
 });
 
-// Connect to MongoDB and start server
-const startServer = async () => {
-  try {
-    await mongoose.connect(MONGODB_URI);
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => {
     console.log('✅ Connected to MongoDB');
-    
-    app.listen(PORT, () => {
-      console.log(`🚀 Server is running on http://localhost:${PORT}`);
-      console.log(`📝 API endpoints available at http://localhost:${PORT}/api/patterns`);
-    });
-  } catch (error) {
-    console.error('❌ Failed to connect to MongoDB:', error);
-    console.log('⚠️  Starting server without MongoDB connection...');
-    console.log('   Make sure MongoDB is running to use save/load features.');
-    
-    app.listen(PORT, () => {
-      console.log(`🚀 Server is running on http://localhost:${PORT}`);
-      console.log(`⚠️  Limited functionality - MongoDB not connected`);
-    });
-  }
-};
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err);
+  });
 
-startServer();
+export default app;
