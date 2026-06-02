@@ -4,11 +4,11 @@ A modern CSS visualizer application to practice styling patterns including Flexb
 
 ## Features
 
-- 🎨 **Pattern Selector**: Switch between Flexbox, Grid, and Custom layout patterns
-- ✏️ **Monaco Editor**: Live CSS and HTML editing with syntax highlighting
-- 👀 **Real-time Preview**: See your changes instantly as you type
-- 💾 **Save/Load**: Persist your patterns in MongoDB for later use
-- 📱 **Responsive Design**: Works on desktop and mobile devices
+- **Pattern Selector**: Switch between Flexbox, Grid, and Custom layout patterns
+- **Monaco Editor**: Live CSS and HTML editing with syntax highlighting
+- **Real-time Preview**: See changes instantly as you type
+- **Save/Load**: Persist patterns in MongoDB
+- **Responsive Design**: Works on desktop and mobile devices
 
 ## Tech Stack
 
@@ -103,6 +103,7 @@ css-visualizer/
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
+| GET | `/` | Backend status message |
 | GET | `/api/patterns` | Get all patterns |
 | GET | `/api/patterns/type/:type` | Get patterns by type |
 | GET | `/api/patterns/:id` | Get a single pattern |
@@ -110,6 +111,18 @@ css-visualizer/
 | PUT | `/api/patterns/:id` | Update a pattern |
 | DELETE | `/api/patterns/:id` | Delete a pattern |
 | GET | `/api/health` | Health check endpoint |
+
+## Production Notes
+
+- A previous production bug returned `500` on `GET /api/patterns`.
+- Root causes:
+  - Vercel serverless route target was misconfigured.
+  - MongoDB connection failures were not clearly surfaced in API responses.
+- Fix applied:
+  - Added a valid Vercel serverless entry (`backend/api/index.ts`) and updated backend routing config.
+  - Improved MongoDB connection/error logging.
+  - Improved controller error serialization so responses/logs show useful details.
+- Current status: `GET https://css-visualizer-server.vercel.app/api/patterns` returns `200 OK`.
 
 ## Default Patterns
 
@@ -159,7 +172,7 @@ npm start
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome. Feel free to submit a pull request.
 
 ## License
 
