@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+/* CSS Variables for theming */
+:root {
+  /* Preview Theme - Light Mode (default) */
+  --preview-bg: #ffffff;
+  --preview-text: #1f2937;
+  --preview-text-muted: #6b7280;
+  --preview-border: #e5e7eb;
+  --preview-card-bg: #f9fafb;
+  --preview-card-shadow: rgba(0, 0, 0, 0.1);
+  
+  /* App Theme Colors */
+  --app-bg: #030712;
+  --app-surface: #111827;
+  --app-surface-hover: #1f2937;
+  --app-border: #374151;
+  --app-text: #f9fafb;
+  --app-text-muted: #9ca3af;
+  
+  /* Accent Colors */
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #4f46e5;
+  --accent-success: #10b981;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
+  
+  /* Pattern Type Colors */
+  --color-flexbox: #a855f7;
+  --color-grid: #10b981;
+  --color-custom: #f97316;
+}
+
+/* Preview Dark Theme */
+[data-preview-theme="dark"] {
+  --preview-bg: #1f2937;
+  --preview-text: #f9fafb;
+  --preview-text-muted: #9ca3af;
+  --preview-border: #374151;
+  --preview-card-bg: #111827;
+  --preview-card-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Base styles */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--app-bg);
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--app-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--app-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--app-text-muted);
+}
+
+/* Ensure Monaco Editor takes full height */
+.monaco-editor {
+  height: 100% !important;
+}
+
+/* Theme transition */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

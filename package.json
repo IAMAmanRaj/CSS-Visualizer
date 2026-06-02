@@ -1,0 +1,14 @@
+{
+  "name": "css-visualizer",
+  "version": "1.0.0",
+  "description": "CSS Visualizer - Practice Flexbox, Grid & Layouts",
+  "scripts": {
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "install:all": "cd frontend && npm install && cd ../backend && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build"
+  },
+  "keywords": ["css", "visualizer", "flexbox", "grid", "react", "express"],
+  "license": "MIT"
+}
