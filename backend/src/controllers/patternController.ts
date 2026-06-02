@@ -1,13 +1,28 @@
 import { Request, Response } from 'express';
 import Pattern from '../models/Pattern';
 
+const getErrorDetails = (error: unknown): { message: string; name?: string; stack?: string } => {
+  if (error instanceof Error) {
+    return {
+      message: error.message,
+      name: error.name,
+      stack: process.env.NODE_ENV === 'production' ? undefined : error.stack,
+    };
+  }
+
+  return {
+    message: 'Unknown error',
+  };
+};
+
 // Get all patterns
 export const getAllPatterns = async (req: Request, res: Response): Promise<void> => {
   try {
     const patterns = await Pattern.find().sort({ createdAt: -1 });
     res.status(200).json(patterns);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching patterns', error });
+    console.error('Error in getAllPatterns:', error);
+    res.status(500).json({ message: 'Error fetching patterns', error: getErrorDetails(error) });
   }
 };
 
@@ -22,7 +37,8 @@ export const getPatternsByType = async (req: Request, res: Response): Promise<vo
     const patterns = await Pattern.find({ type }).sort({ createdAt: -1 });
     res.status(200).json(patterns);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching patterns', error });
+    console.error('Error in getPatternsByType:', error);
+    res.status(500).json({ message: 'Error fetching patterns', error: getErrorDetails(error) });
   }
 };
 
@@ -37,7 +53,8 @@ export const getPatternById = async (req: Request, res: Response): Promise<void>
     }
     res.status(200).json(pattern);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching pattern', error });
+    console.error('Error in getPatternById:', error);
+    res.status(500).json({ message: 'Error fetching pattern', error: getErrorDetails(error) });
   }
 };
 
@@ -62,7 +79,8 @@ export const createPattern = async (req: Request, res: Response): Promise<void> 
     const savedPattern = await pattern.save();
     res.status(201).json(savedPattern);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating pattern', error });
+    console.error('Error in createPattern:', error);
+    res.status(500).json({ message: 'Error creating pattern', error: getErrorDetails(error) });
   }
 };
 
@@ -85,7 +103,8 @@ export const updatePattern = async (req: Request, res: Response): Promise<void> 
 
     res.status(200).json(pattern);
   } catch (error) {
-    res.status(500).json({ message: 'Error updating pattern', error });
+    console.error('Error in updatePattern:', error);
+    res.status(500).json({ message: 'Error updating pattern', error: getErrorDetails(error) });
   }
 };
 
@@ -102,6 +121,7 @@ export const deletePattern = async (req: Request, res: Response): Promise<void> 
 
     res.status(200).json({ message: 'Pattern deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting pattern', error });
+    console.error('Error in deletePattern:', error);
+    res.status(500).json({ message: 'Error deleting pattern', error: getErrorDetails(error) });
   }
 };

@@ -55,12 +55,19 @@ app.use((err: Error, req: Request, res: Response, next: Function) => {
 });
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI, {
+    serverSelectionTimeoutMS: 15000,
+    connectTimeoutMS: 15000,
+  })
   .then(() => {
     console.log('✅ Connected to MongoDB');
   })
   .catch((err) => {
     console.error('❌ MongoDB connection error:', err);
   });
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ MongoDB runtime error:', err);
+});
 
 export default app;
